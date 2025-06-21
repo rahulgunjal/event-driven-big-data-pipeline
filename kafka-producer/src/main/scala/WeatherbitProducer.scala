@@ -18,7 +18,7 @@ object WeatherbitProducer {
     val producer = new KafkaProducer[String, String](props)
     val topic = "weather"
 
-    val apiKey = "a4d79bbcea674e5e92da1e6d4b8c74b3" // 👈 Replace this
+    val apiKey = "a4d79bbcea674e5e92da1e6d4b8c74b3" 
     val city = "Aurangabad"
     val country = "IN"
     val url = s"https://api.weatherbit.io/v2.0/current?city=$city&country=$country&key=$apiKey"
