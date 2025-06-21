@@ -1,23 +1,44 @@
-# Event-Driven Big Data Pipeline (Local Setup)
+# 🚀 Event-Driven Big Data Pipeline — Real-Time Weather Alerts
 
-🚀 A fully local project to showcase event-driven data pipelines using Kafka, Spark Structured Streaming, and Airflow.
+## 📌 Project Overview
 
-## 📌 Architecture
+This project demonstrates a **real-time streaming pipeline** using:
+- **Apache Kafka** — for event ingestion
+- **Scala Producer** — sends live or fake weather data
+- **Apache Spark Structured Streaming** — consumes, analyzes & detects extreme weather conditions
+- **Smart Alert Logic** — triggers heatwave, frost, storm, or heavy rain alerts
+- **Logs ALL events** (including normal weather) with timestamps
 
-Kafka (local) → Spark Structured Streaming (local) → Local Folder or MinIO (S3-compatible) → Orchestrated by Airflow (local)
+> ✅ **Goal:** Show end-to-end Big Data Engineering + Real-Time Analytics in a clean, production-like way.
+
+---
 
 ## ⚙️ Tech Stack
 
-- Apache Kafka (local)
-- Apache Spark Structured Streaming (local)
-- Apache Airflow (local)
-- Local Storage or MinIO
+| Tool          | Purpose                           |
+| --------------| --------------------------------- |
+| Scala         | Data Producer + Consumer Logic   |
+| Kafka         | Message Queue / Event Hub        |
+| Spark         | Real-Time Processing             |
+| Docker        | Easy local Kafka & Zookeeper     |
+| Weatherbit API | Free real weather data or fake JSON |
 
-## ✅ Steps
+---
 
-1. Kafka producer generates logs
-2. Spark streaming job consumes and processes logs
-3. Processed data saved to local folder or MinIO bucket
-4. Airflow orchestrates end-to-end flow
+## 📂 Project Structure
 
-*No cloud costs. 100% local development.*
+event-driven-big-data-pipeline/
+├── producer/ # Scala producer app
+├── spark-consumer/ # Scala Spark streaming consumer
+├── docker-compose.yml # Kafka + Zookeeper setup
+├── README.md # This file
+├── .gitignore # Ignores alerts_output
+
+---
+
+## 🚀 How to Run
+
+### 1️⃣ Start Kafka & Zookeeper
+
+```bash
+docker-compose up -
