@@ -14,7 +14,7 @@ object SimpleProducer {
       val record = new ProducerRecord[String, String]("logs", s"key-$i", s"This is log message $i")
       producer.send(record)
       println(s"Sent: key-$i => This is log message $i")
-      Thread.sleep(1000)
+      Thread.sleep(10)
     }
 
     producer.close()
