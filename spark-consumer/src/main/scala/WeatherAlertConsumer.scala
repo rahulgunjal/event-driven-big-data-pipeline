@@ -1,7 +1,6 @@
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SparkSession, Dataset, Row}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Dataset, Row}
 
 object WeatherAlertConsumer {
   def main(args: Array[String]): Unit = {
@@ -46,31 +45,35 @@ object WeatherAlertConsumer {
         "json.data[0].datetime as datetime"
       )
 
-    val alertsDF = weatherDF.withColumn("alert",
+    // Add alert OR fallback message
+    val eventsDF = weatherDF.withColumn("alert",
       when(col("temp") > 40, concat(lit("Heatwave detected in "), col("city")))
         .when(col("temp") < 5, concat(lit("Frost warning in "), col("city")))
         .when(col("wind_spd") > 50, concat(lit("Storm warning in "), col("city")))
         .when(col("precip") > 10, concat(lit("Heavy rain in "), col("city")))
-        .otherwise(lit(null))
+        .otherwise(lit("No alert - weather normal"))
     )
 
-    val finalAlerts = alertsDF.filter(col("alert").isNotNull)
-      .select("datetime", "city", "temp", "humidity", "wind_spd", "precip", "alert")
+    val finalEvents = eventsDF.select(
+      current_timestamp().alias("processed_at"),
+      col("datetime"),
+      col("city"),
+      col("temp"),
+      col("humidity"),
+      col("wind_spd"),
+      col("precip"),
+      col("alert")
+    )
 
-
-    val query = finalAlerts.writeStream
+    val query = finalEvents.writeStream
       .foreachBatch { (batchDF: Dataset[Row], batchId: Long) =>
-        if (batchDF.isEmpty) {
-          println(s"=== Batch $batchId: No alerts triggered. Weather is normal. ===")
-        } else {
-          println(s"=== Batch $batchId: Alerts triggered! ===")
-          batchDF.show(false)
+        println(s"\n=== Batch $batchId ===")
+        batchDF.show(false)
 
-          batchDF.write
-            .mode("append")
-            .option("header", "true")
-            .csv("alerts_output")
-        }
+        batchDF.write
+          .mode("append")
+          .option("header", "true")
+          .csv("alerts_output")
       }
       .outputMode("append")
       .start()
