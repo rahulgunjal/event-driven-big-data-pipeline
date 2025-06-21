@@ -1,26 +1,23 @@
-# Event-Driven Big Data Pipeline
+# Event-Driven Big Data Pipeline (Local Setup)
 
-🚀 This project demonstrates a real-time log processing pipeline using Kafka, Spark Structured Streaming, Airflow, and AWS S3.
-
-**Key Skills:** Scala/Python, Spark, Kafka, Airflow, Cloud Data Lake
+🚀 A fully local project to showcase event-driven data pipelines using Kafka, Spark Structured Streaming, and Airflow.
 
 ## 📌 Architecture
 
-Kafka → Spark Streaming → S3 → (Optional: Presto/Athena)
-
-*Detailed diagram coming soon!*
+Kafka (local) → Spark Structured Streaming (local) → Local Folder or MinIO (S3-compatible) → Orchestrated by Airflow (local)
 
 ## ⚙️ Tech Stack
 
-- Apache Kafka
-- Apache Spark Structured Streaming
-- Apache Airflow
-- AWS S3
-- Python / Scala
+- Apache Kafka (local)
+- Apache Spark Structured Streaming (local)
+- Apache Airflow (local)
+- Local Storage or MinIO
 
 ## ✅ Steps
 
 1. Kafka producer generates logs
-2. Spark consumes and processes streams
-3. Clean data is stored in S3
-4. Airflow orchestrates the pipeline
+2. Spark streaming job consumes and processes logs
+3. Processed data saved to local folder or MinIO bucket
+4. Airflow orchestrates end-to-end flow
+
+*No cloud costs. 100% local development.*
