@@ -28,6 +28,7 @@ This project demonstrates a **real-time streaming pipeline** using:
 ## 📂 Project Structure
 
 event-driven-big-data-pipeline/
+
 ├── producer/ # Scala producer app
 ├── spark-consumer/ # Scala Spark streaming consumer
 ├── docker-compose.yml # Kafka + Zookeeper setup
